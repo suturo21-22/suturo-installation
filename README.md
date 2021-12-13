@@ -9,6 +9,21 @@
 
 ---
 
+## [∞](#mongodb-4.4.5)
+Before the installation of mongodb 4.4.5, first check if you already have that version by running  
+`mongo --eval 'db.runCommand({ connectionStatus: 1 })'`.  
+Look for the 2 mentions of `version`. If both are at least 4.4.5, you can skip the installation of mongodb.
+
+If you have mongodb already installed but **don't have data stored**, a simple `sudo apt-get purge 'mongodb*'` followed by `sudo rm -r /var/lib/mongodb; sudo rm -r /var/log/mongodb` is enough to remove the old version.  
+In case you **already use it, backup your data** somewhere else. Also look at https://docs.mongodb.com/manual/tutorial/upgrade-revision.
+
+The following steps are for installing mongodb the first time on a computer or installing it after completly purging the previous version, including the data and log folders.  
+In case of an questions, look at https://docs.mongodb.com/v4.4/tutorial/install-mongodb-on-ubuntu/.
+
+There is an [interactive installation script](install-mongodb.sh) however it is not well tested currently.
+It worked on at least 2 machines, so there is a good chance it will work for you.
+If that doesn't work, look into the script or at the [official installation guide](https://docs.mongodb.com/v4.4/tutorial/install-mongodb-on-ubuntu/.)
+
 # Perception
 first, install the following dependencies: (instructions from https://qengineering.eu/install-caffe-on-ubuntu-20.04-with-opencv-4.4.html)
 
