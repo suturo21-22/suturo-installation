@@ -28,7 +28,7 @@ If that doesn't work, look into the script or at the [official installation guid
 # Perception
 first, install the following dependencies: (instructions from https://qengineering.eu/install-caffe-on-ubuntu-20.04-with-opencv-4.4.html)
 
-## [∞](#opencv-440) OpenCV 4.4.0
+## OpenCV 4.4.0
 ```
 sudo apt-get update
 
@@ -94,7 +94,7 @@ import cv2
 cv2.__version__
 ```
 
-## [∞](#caffe) Caffe
+## Caffe
 ```
 #install dependencies
 sudo apt install cmake git unzip libprotobuf-dev libleveldb-dev liblmdb-dev libsnappy-dev libhdf5-serial-dev protobuf-compiler libatlas-base-dev libopenblas-dev the python3-dev python3-skimage graphviz
@@ -145,7 +145,7 @@ endif()
 ⚠️ for python undefined reference error in `make all`: ` 73%] Linking CXX executable upgrade_solver_proto_text`
 in line `33` change the python version to `3`
 
-## [∞](#robosherlock) Robosherlock
+## Robosherlock
 
 now install robosherlock
 
@@ -248,7 +248,7 @@ start demo_addons:
 `rosrun robosherlock runAAE _ae:=demo_addons _vis:=true`
 
 
-## [∞](#install-old-perception-project) install old perception project
+## install old perception project
 
 first, make a workspace where the old perception project gets installed
 ```
