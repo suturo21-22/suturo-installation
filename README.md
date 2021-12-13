@@ -1,6 +1,7 @@
 # SUTURO installation
 
 <!-- TOC -->
+- [Mongodb 4.4.10](#mongodb-4410)
 - [OpenCV 4.4.0](#opencv-440)
 - [Caffe](#caffe)
 - [Robosherlock](#robosherlock)
@@ -9,8 +10,8 @@
 
 ---
 
-## [∞](#mongodb-4.4.5)
-Before the installation of mongodb 4.4.5, first check if you already have that version by running  
+## Mongodb 4.4.10
+Before the installation of mongodb 4.4.10, first check if you already have that version by running  
 `mongo --eval 'db.runCommand({ connectionStatus: 1 })'`.  
 Look for the 2 mentions of `version`. If both are at least 4.4.5, you can skip the installation of mongodb.
 
