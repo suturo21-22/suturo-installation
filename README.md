@@ -92,6 +92,8 @@ python3
 # in python promt >>>
 import cv2
 cv2.__version__
+# should print '4.4.0'
+exit()
 ```
 
 ## Caffe
@@ -121,18 +123,10 @@ make test -j$(nproc)
 make runtest -j$(nproc)
 
 # runtest should run through ok, with 1266 passed tests
-
-# if directory does not exist yet create with 'mkdir build'
-cd build
-
-cmake ..
-make all
-make install
-make runtest
 ```
 
-
 go to the file `~/caffe/CMakeLists.txt` (`gedit ~/caffe/CMakeLists.txt`)
+
 in line `85` comment out `add_dependencies(pytest pycaffe)` like this
 
 ```
@@ -141,8 +135,22 @@ if(BUILD_python)
   #add_dependencies(pytest pycaffe)
 endif()
 ```
+Then continue with the installation
+```
+cd build
 
-⚠️ for python undefined reference error in `make all`: ` 73%] Linking CXX executable upgrade_solver_proto_text`
+cmake ..
+make all
+make install
+make runtest
+# runtest should run through ok, with 1266 passed tests
+```
+
+
+⚠️ For python undefined reference error in `make all`: ` 73%] Linking CXX executable upgrade_solver_proto_text`
+
+➡️ go to the file `~/caffe/CMakeLists.txt` (`gedit ~/caffe/CMakeLists.txt`)
+
 in line `33` change the python version to `3`
 
 ## Robosherlock
@@ -151,53 +159,53 @@ now install robosherlock
 
 first, make a workspace where robosherlock gets installed
 ```
-mkdir rs_ws
-cd rs_ws
-mkdir src
-# cd into the source folder and clone the following repositories
-cd src
+# if it doesn't exist yet
+cd ~ && mkdir -p SUTURO/SUTURO_WSS
+
+cd ~/SUTURO/SUTURO_WSS
+mkdir -p robosherlock_ws/src
+cd robosherlock_ws/src
 ```
 
 Clone the following repositories:
-`git clone https://github.com/suturo21-22/robosherlock -b noetic --recursive`
+```
+git clone https://github.com/suturo21-22/robosherlock -b noetic --recursive && git clone https://github.com/suturo21-22/rs_addons -b noetic --recursive && git clone https://github.com/RoboSherlock/rs_resources --recursive && git clone https://github.com/ros-perception/image_transport_plugins.git
 
-
-`git clone https://github.com/suturo21-22/rs_addons -b noetic --recursive`
-
-`git clone https://github.com/RoboSherlock/rs_resources --recursive`
-
-download a .zip of `https://github.com/ros-perception/image_transport_plugins/tree/b21ed65f8136d9f9ef9c1fb0189b456ec92af305` and unpack it into your `rs_ws/src` folder
-
+# checkout specific commit that we need
+cd image_transport_plugins
+git checkout b21ed65f8136d9f9ef9c1fb0189b456ec92af305
+cd ..
+```
+(if the last one doesn't work, download a .zip of https://github.com/ros-perception/image_transport_plugins/tree/b21ed65f8136d9f9ef9c1fb0189b456ec92af305 and unpack it into your robosherlock_ws/src folder(TODO: make own fork and reset to this commit))
 
 install missing dependencies
 ```
 sudo apt install default-jdk libmongoclient-dev software-properties-common python3 python-is-python3 ros-noetic-jsk-data libboost-python-dev
 
-sudo apt-add-repository ppa:swi-prolog/stable
-sudo apt update
-sudo apt install swi-prolog
+sudo apt-add-repository ppa:swi-prolog/stable && sudo apt update && sudo apt install swi-prolog
 
 ```
 
-⚠️ Check if caffe is recognized by robosherlock:
+ℹ️ Check if caffe is recognized by robosherlock:
 
 ```
 sudo apt install cmake-curses-gui
 
-# put in the path to your rs_ws
-cd PATH/rs_ws/src/robosherlock/robosherlock/cmake/
+# put in the path to your robosherlock_ws
+cd ~SUTURO/SUTURO_WSS/robosherlock_ws/src/robosherlock/robosherlock/cmake/
+
 ccmake ..
-c
-e
 ```
 check caffe path from `Caffe_DIR`, change it accordingly
+
 ```
 c
+e
 g
-```
+``` 
 
 
-go into the folder `rs_ws/src/robosherlock/robosherlock/src/annotation` and edit the file `CMakeLists.txt`
+go into the folder `robosherlock_ws/src/robosherlock/robosherlock/src/annotation` and edit the file `CMakeLists.txt` (`gedit ~/SUTURO/SUTURO_WSS/robosherlock_ws/src/robosherlock/robosherlock/src/annotation/CMakeLists.txt`)
 
 in line `30` and `37`, comment out or delete the if-condition like this:
 ```
@@ -211,18 +219,21 @@ in line `30` and `37`, comment out or delete the if-condition like this:
 #endif()
 ```
 
+build robosherlock:
+```
+cd ~/SUTURO/SUTURO_WSS/robosherlock_ws
+catkin build
+source devel/setup.bash
+```
+
 ⚠️ If you get this error: `/usr/bin/ld: cannot find -lBoost::python`
+
+➡️
 ```
 cd /usr/lib/x86_64-linux-gnu
 sudo ln -s libboost_python38.so libBoost::python.so
 ```
 
-
-```
-cd ..
-catkin build
-source devel/setup.bash
-```
 
 ℹ️ Optional: start demo
 
@@ -230,33 +241,34 @@ source devel/setup.bash
 
 ℹ️ Optional: start demo_addons (with caffe)
 
-⚠️ to download the demo_addons to test caffe itegration, go to the folder `caffe/scripts` and edit the file `download_model_binary.py`
+⚠️ to download the demo_addons to test caffe itegration, go to the folder `~/caffe/scripts` and edit the file `download_model_binary.py` (`gedit ~/caffe/scripts/download_model_binary.py`)
 
 in line `6`, change `import urllib` to `from urllib.request import urlretrieve`
 
 in line `72`, change `urllib.urlretrieve(` to `urlretrieve(`
 
 download demo_addons:
-⚠️ if you get the error `[ERROR] [1638716690.455948067]: CaffeAnnotator.cpp(103)[initialize] Couldn't find trained file - Maybe you forgot to put the (downloaded) reference network at /home/lucakrohm/SUTURO/rs_ws/src/rs_resources/caffe/models/bvlc_reference_caffenet/bvlc_reference_caffenet.caffemodel
-`:
 
-`cd PATHTORSWORKSPACE/rs_ws/src/rs_resources`
+ ```
+cd ~/SUTURO/SUTURO_WSS/robosherlock_ws/src/rs_resources`
 
-`~/caffe/scripts/download_model_binary.py ./caffe/models/bvlc_reference_caffenet`
+~/caffe/scripts/download_model_binary.py ./caffe/models/bvlc_reference_caffenet
+```
 
 start demo_addons:
 `rosrun robosherlock runAAE _ae:=demo_addons _vis:=true`
 
 
-## install old perception project
+## install perception_ws
 
-first, make a workspace where the old perception project gets installed
+make a workspace for perception
 ```
-mkdir oldsuturo_ws
-cd oldsuturo_ws
-mkdir src
+cd ~/SUTURO/SUTURO_WSS
+
+mkdir -p perception_ws/src
+
 # cd into the source folder and clone the following repositories
-cd src
+cd perception_ws/src
 
 git clone https://github.com/SUTURO/suturo_perception.git && git clone https://github.com/SUTURO/suturo_resources && git clone https://github.com/code-iai/hsr_description.git -b gripper_tool_frame_noetic
 
