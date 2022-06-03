@@ -13,7 +13,7 @@
 - [Knowledge](#knowledge)
 - [Navigation](#navigation)
 - [Planning](#planning)
-
+- [Starting-everything](#starting-everything)
 <!-- /TOC -->
 
 ---
