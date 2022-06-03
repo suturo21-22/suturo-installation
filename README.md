@@ -413,10 +413,10 @@ Note: if you have sourced another workspace before this, remember to source `dep
 
 ```
 cd ~/SUTURO
-mkdir -p SUTURO_WSS/navigation_ws/src
-cd SUTURO_WSS/navigation_ws/src
+mkdir -p SUTURO_WSS/planning_ws/src
+cd SUTURO_WSS/planning_ws/src
 wstool init
-wstool merge https://raw.githubusercontent.com/SUTURO/suturo_navigation/master/workspace.rosinstall -y
+wstool merge https://raw.githubusercontent.com/SUTURO/suturo_planning/master/planning_ws.rosinstall -y
 wstool update
 rosdep install --from-path . --ignore-src -r
 cd ..
