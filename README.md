@@ -1,11 +1,13 @@
 # SUTURO installation
 
 <!-- TOC -->
+
 - [Mongodb 4.4.10](#mongodb-4410)
 - [OpenCV 4.4.0](#opencv-440)
 - [Caffe](#caffe)
 - [Robosherlock](#robosherlock)
 - [install old perception project](#install-old-perception-project)
+
 <!-- /TOC -->
 
 ---
@@ -25,10 +27,41 @@ There is an [interactive installation script](install-mongodb.sh) however it is 
 It worked on at least 2 machines, so there is a good chance it will work for you.
 If that doesn't work, look into the script or at the [official installation guide](https://docs.mongodb.com/v4.4/tutorial/install-mongodb-on-ubuntu/.)
 
+# Dependencies
+Before installing any subgroups workspace, you should download, build, and source the dependencies workspace.
+
+## Download
+```
+# download
+mkdir -p ~/SUTURO_WSS/dependencies_ws/src
+cd ~/SUTURO_WSS/dependencies_ws/src
+wstool init
+wstool merge https://raw.githubusercontent.com/SUTURO/suturo_planning/master/planning_dependency.rosinstall -y
+wstool merge https://raw.githubusercontent.com/SUTURO/suturo_perception/master/dependencies.rosinsall -y
+wstool merge https://raw.githubusercontent.com/SUTURO/suturo_knowledge/master/dependencies.rosinsall -y
+wstool merge https://raw.githubusercontent.com/SUTURO/suturo_navigation/master/dependencies.rosinsall -y
+wstool merge https://raw.githubusercontent.com/SUTURO/suturo_manipulation/master/dependencies.rosinsall -y
+wstool update
+rosdep install --from-path . --ignore-src -r
+cd ..
+# build
+catkin build
+# source
+# in case you use sh or zsh, replace the .bash with .sh or .zsh respectively
+source devel/setup.bash
+```
+
+The sourcing step is critical and should be done every time before another workspace is build or used, unless dependencies or the other workspace was the last one sourced in that shell session.
+It effectively allows ros to see the dependencies workspace as already installed programs. Without sourcing it, rosdep for example would complain about not finding `nlp_msgs` and similar packages that are in the dependencies workspace.
+
+However note that to build the `planning_ws` you have to source the `robosherlock_ws`, not the dependencies.
+But for building the `robosherlock_ws` you should source `dependencies_ws`. That way `planning_ws` can access both workspaces.
+
 # Perception
 first, install the following dependencies: (instructions from https://qengineering.eu/install-caffe-on-ubuntu-20.04-with-opencv-4.4.html)
 
 ## OpenCV 4.4.0
+
 ```
 sudo apt-get update
 
@@ -285,11 +318,14 @@ if you read from database, you may have to start mongodb first
 `roslaunch suturo_perception hsrb_perception.launch`
 
 # Manipulation
-`cd ~/SUTURO`
-`mkdir -p SUTURO_WSS/manipulation_ws/src`
-`cd SUTURO_WSS/manipulation_ws/src`
-`wstool init`
-`wstool merge https://raw.githubusercontent.com/SUTURO/suturo_manipulation/master/workspace.rosinstall -y`
+
+```
+cd ~/SUTURO
+mkdir -p SUTURO_WSS/manipulation_ws/src
+cd SUTURO_WSS/manipulation_ws/src
+wstool init
+wstool merge https://raw.githubusercontent.com/SUTURO/suturo_manipulation/master/workspace.rosinstall -y
+```
 
 ## check the rosinstall
 `gedit .rosinstall`
@@ -312,17 +348,45 @@ if you read from database, you may have to start mongodb first
     local-name: suturo_manipulation
     uri: https://github.com/SUTURO/suturo_manipulation.git
     version: master
-   ```
-    
-  `wstool update`
-  `rosdep install --from-path . --ignore-src -r`
+```
 
-  #necessary installations
-  `sudo pip3 install pybullet scipy casadi sortedcontainers hypothesis pandas numpy`
+## install depenencies
+Note: if you have build another workspace before this, remember to source `dependencies_ws`.
+```
+wstool update
+rosdep install --from-path . --ignore-src -r
+```
+
+## necessary installations
+`sudo pip3 install pybullet scipy casadi sortedcontainers hypothesis pandas numpy`
   
 
 
 # Knowledge
+Note: if you have build another workspace before this, remember to source `dependencies_ws`.
+```
+cd ~/SUTURO
+mkdir -p SUTURO_WSS/knowledge_ws/src
+cd SUTURO_WSS/knowledge_ws/src
+wstool init
+wstool merge https://raw.githubusercontent.com/SUTURO/suturo_knowledge/master/workspace.rosinstall -y
+```
+
+In case you want the setup at the point of writing you need to change the branch (`version:`) of suturo_knowledge from `master` to `old-refactoring` in the `.rosinstall` file.
+
+```
+wstool update
+rosdep install --from-path . --ignore-src -r
+```
+
+Make sure that everything needed is installed, otherwise you may need to check the output of the following commands.
+In case you get a complaint about `python-future` not found, you can safely ignore it.
+
+```
+# Note: the genowl package needs to be build beforehand because something else depends on stuff genowl generates.
+catkin build genowl
+catkin build
+```
 
 # Navigation
 
