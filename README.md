@@ -318,7 +318,7 @@ if you read from database, you may have to start mongodb first
 `roslaunch suturo_perception hsrb_perception.launch`
 
 # Manipulation
-
+Note: if you have sourced another workspace before this, remember to source `dependencies_ws`.
 ```
 cd ~/SUTURO
 mkdir -p SUTURO_WSS/manipulation_ws/src
@@ -351,7 +351,7 @@ wstool merge https://raw.githubusercontent.com/SUTURO/suturo_manipulation/master
 ```
 
 ## install depenencies
-Note: if you have build another workspace before this, remember to source `dependencies_ws`.
+
 ```
 wstool update
 rosdep install --from-path . --ignore-src -r
@@ -363,7 +363,7 @@ rosdep install --from-path . --ignore-src -r
 
 
 # Knowledge
-Note: if you have build another workspace before this, remember to source `dependencies_ws`.
+Note: if you have sourced another workspace before this, remember to source `dependencies_ws`.
 ```
 cd ~/SUTURO
 mkdir -p SUTURO_WSS/knowledge_ws/src
@@ -389,5 +389,31 @@ catkin build
 ```
 
 # Navigation
+Note: if you have sourced another workspace before this, remember to source `dependencies_ws`.
+
+```
+cd ~/SUTURO
+mkdir -p SUTURO_WSS/navigation_ws/src
+cd SUTURO_WSS/navigation_ws/src
+wstool init
+wstool merge https://raw.githubusercontent.com/SUTURO/suturo_navigation/master/workspace.rosinstall -y
+wstool update
+rosdep install --from-path . --ignore-src -r
+cd ..
+catkin build
+```
 
 # Planning
+Note: if you have sourced another workspace before this, remember to source `dependencies_ws`.
+
+```
+cd ~/SUTURO
+mkdir -p SUTURO_WSS/navigation_ws/src
+cd SUTURO_WSS/navigation_ws/src
+wstool init
+wstool merge https://raw.githubusercontent.com/SUTURO/suturo_navigation/master/workspace.rosinstall -y
+wstool update
+rosdep install --from-path . --ignore-src -r
+cd ..
+catkin build
+```
