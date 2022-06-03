@@ -468,7 +468,7 @@ for cleanup:
 (swank:operate-on-system-for-emacs "cram-hsrb-pick-demo" (quote load-op))
 (swank:operate-on-system-for-emacs "cleanup-demo" (quote load-op))
 
-(clean:execute-cleanup)
+(clean:new-execute-cleanup)
 ```
 
 for wipe:
