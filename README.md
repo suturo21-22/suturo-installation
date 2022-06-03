@@ -422,3 +422,64 @@ rosdep install --from-path . --ignore-src -r
 cd ..
 catkin build
 ```
+
+# Starting everything
+
+```
+T? = Terminal number ?
+
+# Start in ~/SUTURO/SUTURO_WSS
+# T1 manipulation_ws
+# T2 perception_ws
+# T3 navigation
+# T4 knowledge
+# T5 Planning
+# source all
+# T6 rqt_graph
+
+# T5
+roslaunch suturo_bringup robocup_practice_easy_old.launch
+
+# WAIT
+# in Gazebo press play
+
+# T1
+roslaunch suturo_manipulation start_manipulation.launch
+# T2
+roslaunch suturo_perception hsrb_perception.launch
+# T3
+roslaunch suturo_navigation_launch start_suturo_navigation.launch run_object_finder:=true run_nav_fix:=false run_path_planner:=true
+# T4
+roslaunch knowledge knowledge.launch
+# T6
+rosrun rqt_gui rqt_gui -s reconfigure
+# then uncheck the option with the rgbd sensor
+```
+
+In the repl inside of emacs:
+
+for cleanup:
+```
+(swank:operate-on-system-for-emacs "cram-urdf-bringup" (quote load-op))
+(swank:operate-on-system-for-emacs "cram-object-knowledge" (quote load-op))
+(swank:operate-on-system-for-emacs "cram-hsrb-description" (quote load-op))
+(swank:operate-on-system-for-emacs "low-level-interfacing" (quote load-op))
+(swank:operate-on-system-for-emacs "common-functions" (quote load-op))
+(swank:operate-on-system-for-emacs "cram-hsrb-pick-demo" (quote load-op))
+(swank:operate-on-system-for-emacs "cleanup-demo" (quote load-op))
+
+(clean:execute-cleanup)
+```
+
+for wipe:
+```
+(swank:operate-on-system-for-emacs "cram-urdf-bringup" (quote load-op))
+(swank:operate-on-system-for-emacs "cram-object-knowledge" (quote load-op))
+(swank:operate-on-system-for-emacs "cram-hsrb-description" (quote load-op))
+(swank:operate-on-system-for-emacs "low-level-interfacing" (quote load-op))
+(swank:operate-on-system-for-emacs "common-functions" (quote load-op))
+(swank:operate-on-system-for-emacs "cram-hsrb-pick-demo" (quote load-op))
+(swank:operate-on-system-for-emacs "wipe-demo" (quote load-op))
+
+(wipe:execute-wipe)
+```
