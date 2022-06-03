@@ -416,7 +416,7 @@ cd ~/SUTURO
 mkdir -p SUTURO_WSS/planning_ws/src
 cd SUTURO_WSS/planning_ws/src
 wstool init
-wstool merge https://raw.githubusercontent.com/SUTURO/suturo_planning/master/planning_ws.rosinstall -y
+wstool merge https://raw.githubusercontent.com/SUTURO/suturo_planning/wipe/planning_ws.rosinstall -y
 wstool update
 rosdep install --from-path . --ignore-src -r
 cd ..
