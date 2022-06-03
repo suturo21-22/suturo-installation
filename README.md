@@ -3,10 +3,16 @@
 <!-- TOC -->
 
 - [Mongodb 4.4.10](#mongodb-4410)
-- [OpenCV 4.4.0](#opencv-440)
-- [Caffe](#caffe)
-- [Robosherlock](#robosherlock)
-- [install old perception project](#install-old-perception-project)
+- [Dependencies](#dependencies)
+- [Perception](#perception)
+  - [OpenCV 4.4.0](#opencv-440)
+  - [Caffe](#caffe)
+  - [Robosherlock](#robosherlock)
+  - [perception_ws](#install-perception_ws)
+- [Manipulation](#manipulation)
+- [Knowledge](#knowledge)
+- [Navigation](#navigation)
+- [Planning](#planning)
 
 <!-- /TOC -->
 
@@ -30,7 +36,6 @@ If that doesn't work, look into the script or at the [official installation guid
 # Dependencies
 Before installing any subgroups workspace, you should download, build, and source the dependencies workspace.
 
-## Download
 ```
 # download
 mkdir -p ~/SUTURO_WSS/dependencies_ws/src
